@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.forms import Form
 
 from tasks.models import Task, Worker, Position
 
@@ -35,3 +36,11 @@ class WorkerUpdateForm(UserChangeForm):
     class Meta(UserCreationForm.Meta):
         model = Worker
         fields = ["username", "positions", "first_name", "last_name"]
+
+
+class WorkerSearchUsernameForm(Form):
+    username = forms.CharField(max_length=255, required=False)
+
+
+class TaskSearchNameForm(Form):
+    name = forms.CharField(max_length=255, required=False)
