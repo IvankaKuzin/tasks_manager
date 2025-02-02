@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h3>{{ worker.username }}</h3>
+  <h4>{{ worker.positions }}</h4>
+  <p>{{ worker.first_name }} {{ worker.last_name }}</p>
+  <p>
+    Tasks:
+    {% for task in worker.tasks.all %}
+      <p><a href="{% url 'tasks:task-detail' task.pk %}">{{ task.name }}</a></p>
+    {% empty %}
+      <p>No tasks!</p>
+    {% endfor %}
+  </p>
+{% endblock %}

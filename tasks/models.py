@@ -1,7 +1,5 @@
-from typing import List
-
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 from django.urls import reverse
 
 
@@ -53,6 +51,9 @@ class Task(models.Model):
     priority = models.CharField(choices=PRIORITY_LEVEL.items(), max_length=20)
     task_type = models.ForeignKey(TaskType, on_delete=models.SET_NULL, null=True)
     assignees = models.ManyToManyField(Worker, related_name="tasks")
+
+    class Meta:
+        ordering = ["deadline"]
 
     def __str__(self):
         return f"{self.name} - {self.task_type} ({self.priority}): {self.assignees.all()}"

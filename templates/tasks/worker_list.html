@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% for worker in worker_list %}
+    <h3><a href="{% url 'tasks:worker-detail' worker.pk %}">{{ worker.username }} {% if user == worker %}
+      (Me){% endif %}</a></h3>
+    <h4>{{ worker.first_name }} {{ worker.last_name }}</h4>
+    <p>{{ worker.positions }}</p>
+  {% endfor %}
+{% endblock %}

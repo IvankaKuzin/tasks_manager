@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% for task in task_list %}
+    <h3>
+      <a href="{% url 'tasks:task-detail' task.pk %}">{{ task.name }}</a>
+      ({{ task.deadline }}) - {{ task.get_priority_display }}</h3>
+  {% endfor %}
+{% endblock %}
