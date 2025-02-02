@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+  <h1>
+    Task board
+    <a href="{% url 'tasks:task-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+
   {% for task in task_list %}
     <h3>
       <a href="{% url 'tasks:task-detail' task.pk %}">{{ task.name }}</a>

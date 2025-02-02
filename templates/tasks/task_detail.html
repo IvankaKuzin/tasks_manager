@@ -2,6 +2,15 @@
 
 {% block content %}
     <h3>{{ task.name }} ({{ task.deadline }}) - {{ task.get_priority_display }}</h3>
+
+    <a href="{% url 'tasks:task-delete' task.pk %}" class="btn btn-danger link-to-page">
+      Delete
+    </a>
+
+    <a href="{% url 'tasks:task-update' task.pk %}" class="btn btn-secondary link-to-page">
+      Update
+    </a>
+
     <h4>{{ task.task_type }}</h4>
     <p>{{ task.description }}</p>
     <p>

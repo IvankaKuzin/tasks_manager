@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+  <h1>
+    Workers
+    <a href="{% url 'tasks:worker-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+
   {% for worker in worker_list %}
     <h3><a href="{% url 'tasks:worker-detail' worker.pk %}">{{ worker.username }} {% if user == worker %}
       (Me){% endif %}</a></h3>

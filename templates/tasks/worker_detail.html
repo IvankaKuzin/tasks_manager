@@ -2,8 +2,12 @@
 
 {% block content %}
   <h3>{{ worker.username }}</h3>
-  <h4>{{ worker.positions }}</h4>
-  <p>{{ worker.first_name }} {{ worker.last_name }}</p>
+  <h4>
+    {{ worker.positions }}
+  </h4>
+  <p>
+    {{ worker.first_name }} {{ worker.last_name }}
+  </p>
   <p>
     Tasks:
     {% for task in worker.tasks.all %}
@@ -12,4 +16,10 @@
       <p>No tasks!</p>
     {% endfor %}
   </p>
+  <a href="{% url 'tasks:worker-update' worker.pk %}" class="btn btn-secondary link-to-page">
+    Update
+  </a>
+    <a href="{% url 'tasks:worker-delete' worker.pk %}" class="btn btn-danger link-to-page">
+      Delete
+    </a>
 {% endblock %}

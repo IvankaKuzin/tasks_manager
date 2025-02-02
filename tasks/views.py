@@ -1,14 +1,10 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from tasks.forms import TaskForm, WorkerCreationForm, WorkerUpdateForm
 from tasks.models import Task, Worker
 
-
-# @login_required
-# def index(request):
-#     return render(request, "tasks/home_page.html")
 
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
@@ -23,6 +19,23 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
     template_name = "tasks/task_detail.html"
 
 
+class TaskCreateView(LoginRequiredMixin, CreateView):
+    model = Task
+    form_class = TaskForm
+    success_url = reverse_lazy("tasks:task-list")
+
+
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
+    model = Task
+    form_class = TaskForm
+    success_url = reverse_lazy("tasks:task-list")
+
+
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
+    model = Task
+    success_url = reverse_lazy("tasks:task-list")
+
+
 class WorkerListView(LoginRequiredMixin, ListView):
     model = Worker
     context_object_name = "worker_list"
@@ -34,3 +47,20 @@ class WorkerDetailView(LoginRequiredMixin, DetailView):
     model = Worker
     context_object_name = "worker"
     template_name = "tasks/worker_detail.html"
+
+
+class WorkerCreateView(LoginRequiredMixin, CreateView):
+    model = Worker
+    form_class = WorkerCreationForm
+    success_url = reverse_lazy("tasks:worker-list")
+
+
+class WorkerUpdateView(LoginRequiredMixin, UpdateView):
+    model = Worker
+    form_class = WorkerUpdateForm
+    success_url = reverse_lazy("tasks:worker-list")
+
+
+class WorkerDeleteView(LoginRequiredMixin, DeleteView):
+    model = Worker
+    success_url = reverse_lazy("tasks:worker-list")
