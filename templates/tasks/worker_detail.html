@@ -1,13 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h3>{{ worker.username }}</h3>
+  <h3>
+    {{ worker.username }}
+    {% if worker.id == user.id %}
+      (Me)
+    {% endif %}
+  </h3>
   <h4>
     {{ worker.positions }}
   </h4>
   <p>
     {{ worker.first_name }} {{ worker.last_name }}
   </p>
+  <p>{{ worker.email }}</p>
   <p>
     Tasks:
     {% for task in worker.tasks.all %}

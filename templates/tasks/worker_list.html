@@ -9,17 +9,36 @@
     </a>
   </h1>
 
-  <form action="" method="get">
-    {{ search_form|crispy }}
-    <input type="submit">
+  <form action="" method="get" class="row g-3 align-items-center">
+    <div class="col-auto">
+      {{ search_form.search_field|as_crispy_field }}
+    </div>
+    <div class="col-auto">
+      {{ search_form.ordering|as_crispy_field }}
+    </div>
+    <div class="col-auto">
+      <input type="submit" value="Search & Sort" class="btn btn-primary">
+    </div>
   </form>
 
   <p></p>
 
   {% for worker in worker_list %}
-    <h3><a href="{% url 'tasks:worker-detail' worker.pk %}">{{ worker.username }} {% if user == worker %}
-      (Me){% endif %}</a></h3>
-    <h4>{{ worker.first_name }} {{ worker.last_name }}</h4>
-    <p>{{ worker.positions }}</p>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h3 class="card-title">
+          <a href="{% url 'tasks:worker-detail' worker.pk %}">
+            {{ worker.username }}
+          </a>
+        </h3>
+        <p class="card-text">
+          Position: {{ worker.positions }}
+          | Email: {{ worker.email }}
+          | Joined: {{ worker.date_joined }}
+        </p>
+      </div>
+    </div>
   {% endfor %}
+
+  {% include "includes/pagination.html" %}
 {% endblock %}

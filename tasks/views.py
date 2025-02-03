@@ -1,31 +1,62 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.shortcuts import redirect
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
-from tasks.forms import TaskForm, WorkerCreationForm, WorkerUpdateForm, WorkerSearchUsernameForm, TaskSearchNameForm
-from tasks.models import Task, Worker
+from django.utils.dateparse import parse_date
+from tasks.forms import TaskForm, WorkerCreationForm, WorkerUpdateForm, WorkerSearchUsernameForm, TaskSearchForm, \
+    TaskTypeSearchForm
+from tasks.models import Task, Worker, TaskType
 
 
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     context_object_name = "task_list"
+    paginate_by = 3
     template_name = "tasks/task_list.html"
-    paginate_by = 5
-    queryset = Task.objects.select_related("task_type").prefetch_related("assignees")
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(TaskListView, self).get_context_data(**kwargs)
-        name = self.request.GET.get("name", "")
-        context["search_form"] = TaskSearchNameForm(initial={"name": name})
-        return context
 
     def get_queryset(self):
-        name = self.request.GET.get("name")
+        queryset = super().get_queryset()
 
-        if name:
-            return Task.objects.filter(name__icontains=name)
-        else:
-            return Task.objects.all()
+        self.form = TaskSearchForm(self.request.GET)
+
+        if self.form.is_valid():
+            priority = self.form.cleaned_data.get('priority')
+            if priority:
+                priority_key = next(
+                    (key for key, value in Task.PRIORITY_LEVEL.items() if value == priority),
+                    None
+                )
+                if priority_key:
+                    queryset = queryset.filter(priority=priority_key)
+
+            search_field = self.form.cleaned_data.get('search_field')
+            search_query = self.form.cleaned_data.get('search_query')
+
+            if search_field and search_query:
+                filter_kwargs = {}
+
+                if search_field == 'deadline':
+                    try:
+                        deadline = parse_date(search_query)
+                        if deadline:
+                            filter_kwargs[f'{search_field}'] = deadline
+                    except ValueError:
+                        pass
+                else:
+                    filter_kwargs[f'{search_field}__icontains'] = search_query
+
+                queryset = queryset.filter(**filter_kwargs)
+
+            ordering = self.form.cleaned_data.get('ordering')
+            if ordering:
+                queryset = queryset.order_by(ordering)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_form'] = self.form
+        return context
 
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
@@ -46,6 +77,14 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("tasks:task-list")
 
 
+def task_update_status(request, pk):
+    task = Task.objects.get(id=pk)
+    task.is_complete = not task.is_complete
+    task.save()
+
+    return redirect(reverse("tasks:task-list"))
+
+
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
     success_url = reverse_lazy("tasks:task-list")
@@ -58,19 +97,35 @@ class WorkerListView(LoginRequiredMixin, ListView):
     paginate_by = 3
     queryset = Worker.objects.select_related("positions")
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(WorkerListView, self).get_context_data(**kwargs)
-        username = self.request.GET.get("username", "")
-        context["search_form"] = WorkerSearchUsernameForm(initial={"username": username})
-        return context
-
     def get_queryset(self):
-        username = self.request.GET.get("username")
+        queryset = super().get_queryset()
 
-        if username:
-            return Worker.objects.filter(username__icontains=username)
-        else:
-            return Worker.objects.all()
+        self.form = WorkerSearchUsernameForm(self.request.GET)
+
+        if self.form.is_valid():
+            position = self.form.cleaned_data.get('position')
+            if position:
+                queryset = queryset.filter(positions=position)
+
+            search_field = self.form.cleaned_data.get('search_field')
+            search_query = self.form.cleaned_data.get('search_query')
+
+            if search_field and search_query:
+                filter_kwargs = {
+                    f'{search_field}__icontains': search_query
+                }
+                queryset = queryset.filter(**filter_kwargs)
+
+            ordering = self.form.cleaned_data.get('ordering')
+            if ordering:
+                queryset = queryset.order_by(ordering)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_form'] = self.form
+        return context
 
 
 class WorkerDetailView(LoginRequiredMixin, DetailView):
@@ -94,3 +149,49 @@ class WorkerUpdateView(LoginRequiredMixin, UpdateView):
 class WorkerDeleteView(LoginRequiredMixin, DeleteView):
     model = Worker
     success_url = reverse_lazy("tasks:worker-list")
+
+
+class TaskTypeListView(LoginRequiredMixin, ListView):
+    model = TaskType
+    context_object_name = "task_type_list"
+    paginate_by = 3
+    template_name = "tasks/task_type_list.html"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        self.form = TaskTypeSearchForm(self.request.GET)
+
+        if self.form.is_valid():
+            name = self.form.cleaned_data.get('name')
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+
+            ordering = self.form.cleaned_data.get('ordering')
+            if ordering:
+                queryset = queryset.order_by(ordering)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_form'] = self.form
+        return context
+
+
+class TaskTypeCreateView(LoginRequiredMixin, CreateView):
+    model = TaskType
+    fields = "__all__"
+    context_object_name = "task_type"
+    success_url = reverse_lazy("tasks:task-type-list")
+
+
+class TaskTypeUpdateView(LoginRequiredMixin, UpdateView):
+    model = TaskType
+    fields = "__all__"
+    success_url = reverse_lazy("tasks:task-type-list")
+
+
+class TaskTypeDeleteView(LoginRequiredMixin, DeleteView):
+    model = TaskType
+    success_url = reverse_lazy("tasks:task-type-list")

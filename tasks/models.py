@@ -38,11 +38,11 @@ class Worker(AbstractUser):
 
 class Task(models.Model):
     PRIORITY_LEVEL = {
-        "P0": "Critical",
-        "P1": "High",
-        "P2": "Medium",
-        "P3": "Low",
-        "P4": "No priority",
+        "P1": "Critical",
+        "P2": "High",
+        "P3": "Medium",
+        "P4": "Low",
+        "P5": "No priority",
     }
     name = models.CharField(max_length=255)
     description = models.TextField()

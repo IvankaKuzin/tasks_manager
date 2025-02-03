@@ -1,30 +1,15 @@
+{% if user.is_authenticated %}
+  <p><a href="{% url "tasks:worker-detail" user.pk %}">User: {{ user.username }}</a></p>
+  <form method="post" action="{% url 'logout' %}" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-link">Logout</button>
+  </form>
+{% else %}
+  <a href="{% url 'login' %}">Login</a>
+{% endif %}
+
 <ul class="sidebar-nav list-group">
-  {% if user.is_authenticated %}
-    <li class="list-group-item">User: <a href="{% url 'tasks:worker-detail' user.pk %}">{{ user.get_username }}</a></li>
-    <li class="list-group-item"><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
-  {% else %}
-    <li class="list-group-item"><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
-  {% endif %}
-
-  <br>
-
   <li class="list-group-item"><a href="{% url 'tasks:task-list' %}">Home</a></li>
   <li class="list-group-item"><a href="{% url 'tasks:worker-list' %}">Workers</a></li>
+  <li class="list-group-item"><a href="{% url 'tasks:task-type-list' %}">Task types</a></li>
 </ul>
-
-{#<ul class="sidebar-nav list-group">#}
-{#  {% if user.is_authenticated %}#}
-{#    <li class="list-group-item">User: <a href="#">{{ user.get_username }}</a></li>#}
-{#    <li class="list-group-item"><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>#}
-{#  {% else %}#}
-{#    <li class="list-group-item"><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>#}
-{#  {% endif %}#}
-{##}
-{#  <br>#}
-{##}
-{#  <li class="list-group-item"><a href="{% url 'tasks:task-list' %}">Home</a></li>#}
-{#  <li class="list-group-item"><a href="{% url 'tasks:worker-list' %}">Workers</a></li>#}
-{#  <li class="list-group-item"><a href="{% url 'taxi:driver-list' %}">All drivers</a></li>#}
-{#  <li class="list-group-item"><a href="{% url 'taxi:car-list' %}">All cars</a></li>#}
-{#  <li class="list-group-item"><a href="{% url 'taxi:manufacturer-list' %}">All manufacturers</a></li>#}
-{#</ul>#}

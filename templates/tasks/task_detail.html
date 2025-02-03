@@ -16,7 +16,12 @@
     <p>
       Workers:
       {% for worker in task.assignees.all %}
-        <p>{{ worker.username }}</p>
+        <p><a href="{% url 'tasks:worker-detail' worker.id %}">
+          {{ worker.username }}
+          {% if worker.id == user.id %}
+            (Me)
+          {% endif %}
+        </a></p>
       {% endfor %}
     </p>
     <p>{{ task.is_complete }}</p>
