@@ -4,8 +4,25 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.utils.dateparse import parse_date
 from tasks.forms import TaskForm, WorkerCreationForm, WorkerUpdateForm, WorkerSearchUsernameForm, TaskSearchForm, \
-    TaskTypeSearchForm, PositionSearchForm, TaskTypeCreateForm, PositionCreateForm
+    TaskTypeSearchForm, PositionSearchForm, TaskTypeCreateForm, PositionCreateForm, CustomLoginForm
 from tasks.models import Task, Worker, TaskType, Position
+from django.contrib.auth.views import LoginView
+from django import forms
+
+
+class CustomLoginView(LoginView):
+    form_class = CustomLoginForm
+    template_name = 'registration/login.html'
+
+    def form_valid(self, form):
+        remember_me = form.cleaned_data.get('remember_me')
+
+        if remember_me:
+            self.request.session.set_expiry(30 * 24 * 60 * 60)
+        else:
+            self.request.session.set_expiry(0)
+
+        return super().form_valid(form)
 
 
 class TaskListView(LoginRequiredMixin, ListView):

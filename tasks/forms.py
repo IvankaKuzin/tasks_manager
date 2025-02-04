@@ -2,11 +2,20 @@ import re
 
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.core.exceptions import ValidationError
 from django.forms import Form, ModelForm
 
 from tasks.models import Task, Worker, Position, TaskType
+
+
+
+class CustomLoginForm(AuthenticationForm):
+    remember_me = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        label="Remember me"
+    )
 
 
 class TaskForm(forms.ModelForm):
