@@ -1,3 +1,4 @@
+from django import forms
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
@@ -6,11 +7,31 @@ from tasks.forms import (
     TaskSearchForm,
     TaskTypeSearchForm,
     PositionSearchForm,
+    CustomLoginForm
 )
 from tasks.models import Task, Worker, TaskType, Position
 
 
-class SearchTests(TestCase):
+class CustomLoginFormTest(TestCase):
+    def setUp(self):
+        self.form = CustomLoginForm()
+    def test_remember_me_field_exists(self):
+        self.assertIn("remember_me", self.form.fields)
+
+    def test_remember_me_field_is_checkbox(self):
+        self.assertIsInstance(self.form.fields["remember_me"].widget, forms.CheckboxInput)
+
+    def test_remember_me_field_has_correct_label(self):
+        self.assertEqual(self.form.fields["remember_me"].label, "Remember me")
+
+    def test_remember_me_field_is_not_required(self):
+        self.assertFalse(self.form.fields["remember_me"].required)
+
+    def test_remember_me_field_has_correct_class(self):
+        self.assertIn("form-check-input", self.form.fields["remember_me"].widget.attrs.get("class", ""))
+
+
+class SearchFormsTests(TestCase):
     def setUp(self):
         self.position = Position.objects.create(
             name="Position",
