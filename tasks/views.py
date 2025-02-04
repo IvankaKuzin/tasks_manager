@@ -4,7 +4,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.utils.dateparse import parse_date
 from tasks.forms import TaskForm, WorkerCreationForm, WorkerUpdateForm, WorkerSearchUsernameForm, TaskSearchForm, \
-    TaskTypeSearchForm, PositionSearchForm
+    TaskTypeSearchForm, PositionSearchForm, TaskTypeCreateForm, PositionCreateForm
 from tasks.models import Task, Worker, TaskType, Position
 
 
@@ -181,14 +181,14 @@ class TaskTypeListView(LoginRequiredMixin, ListView):
 
 class TaskTypeCreateView(LoginRequiredMixin, CreateView):
     model = TaskType
-    fields = "__all__"
+    form_class = TaskTypeCreateForm
     context_object_name = "task_type"
     success_url = reverse_lazy("tasks:task-type-list")
 
 
 class TaskTypeUpdateView(LoginRequiredMixin, UpdateView):
     model = TaskType
-    fields = "__all__"
+    form_class = TaskTypeCreateForm
     success_url = reverse_lazy("tasks:task-type-list")
 
 
@@ -227,13 +227,13 @@ class PositionListView(LoginRequiredMixin, ListView):
 
 class PositionCreateView(LoginRequiredMixin, CreateView):
     model = Position
-    fields = "__all__"
+    form_class = PositionCreateForm
     success_url = reverse_lazy("tasks:position-list")
 
 
 class PositionUpdateView(LoginRequiredMixin, UpdateView):
     model = Position
-    fields = "__all__"
+    form_class = PositionCreateForm
     success_url = reverse_lazy("tasks:position-list")
 
 

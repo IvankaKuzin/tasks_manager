@@ -14,6 +14,9 @@
       {{ search_form.search_field|as_crispy_field }}
     </div>
     <div class="col-auto">
+      {{ search_form.search_query|as_crispy_field }}
+    </div>
+    <div class="col-auto">
       {{ search_form.ordering|as_crispy_field }}
     </div>
     <div class="col-auto">

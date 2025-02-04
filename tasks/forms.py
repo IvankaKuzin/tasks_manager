@@ -1,9 +1,12 @@
+import re
+
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.forms import Form
+from django.core.exceptions import ValidationError
+from django.forms import Form, ModelForm
 
-from tasks.models import Task, Worker, Position
+from tasks.models import Task, Worker, Position, TaskType
 
 
 class TaskForm(forms.ModelForm):
@@ -26,6 +29,30 @@ class WorkerCreationForm(UserCreationForm):
             "first_name",
             "last_name",
         )
+
+    def clean_first_name(self):
+        value = self.cleaned_data["first_name"]
+        if not value:
+            raise ValidationError("Please enter your first name.")
+        if not value.isalpha():
+            raise ValidationError("First name can't contain numbers or another symbols.")
+        if value != value.title():
+            raise ValidationError("First character in name must be upper case.")
+
+        return value
+
+    def clean_last_name(self):
+        value = self.cleaned_data["last_name"]
+        if not value:
+            raise ValidationError("Please enter your last name.")
+        if not value.isalpha():
+            raise ValidationError("Last name can't contain numbers or another symbols.")
+        if value != value.title():
+            raise ValidationError("First character in last name must be upper case.")
+
+        return value
+
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -133,6 +160,26 @@ class TaskTypeSearchForm(Form):
     )
 
 
+class TaskTypeCreateForm(ModelForm):
+    class Meta:
+        model = TaskType
+        fields = "__all__"
+
+    def clean_name(self):
+        name = self.cleaned_data.get("name")
+
+        if not name:
+            raise ValidationError("Name cannot be empty.")
+
+        if not re.match(r'^[a-zA-Zа-яА-ЯёЁ\s]+$', name):
+            raise ValidationError("Task name can contain only letters and spaces.")
+
+        if name.strip() == '':
+            raise ValidationError("Task name cannot be empty or contain only spaces.")
+
+        return name
+
+
 class PositionSearchForm(Form):
     name = forms.CharField(
         max_length=255,
@@ -149,3 +196,23 @@ class PositionSearchForm(Form):
         required=False,
         label="Sort by"
     )
+
+
+class PositionCreateForm(ModelForm):
+    class Meta:
+        model = Position
+        fields = "__all__"
+
+    def clean_name(self):
+        name = self.cleaned_data.get("name")
+
+        if not name:
+            raise ValidationError("Name cannot be empty.")
+
+        if not re.match(r'^[a-zA-Zа-яА-ЯёЁ\s]+$', name):
+            raise ValidationError("Position name can contain only letters and spaces.")
+
+        if name.strip() == '':
+            raise ValidationError("Position name cannot be empty or contain only spaces.")
+
+        return name
