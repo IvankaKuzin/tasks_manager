@@ -7,9 +7,9 @@ from tasks.forms import (
     TaskSearchForm,
     TaskTypeSearchForm,
     PositionSearchForm,
-    CustomLoginForm
+    CustomLoginForm, TagSearchForm
 )
-from tasks.models import Task, Worker, TaskType, Position
+from tasks.models import Task, Worker, TaskType, Position, Tag
 
 
 class CustomLoginFormTest(TestCase):
@@ -36,6 +36,9 @@ class SearchFormsTests(TestCase):
         self.position = Position.objects.create(
             name="Position",
         )
+        self.tag = Tag.objects.create(
+            name="Tag",
+        )
         self.task_type = TaskType.objects.create(
             name="Task Type",
         )
@@ -54,6 +57,7 @@ class SearchFormsTests(TestCase):
             task_type=self.task_type,
         )
         self.task.assignees.add(self.user)
+        self.task.tags.add(self.tag)
         self.task.save()
 
         self.client.login(username="testuser", password="testpass123")
@@ -95,5 +99,14 @@ class SearchFormsTests(TestCase):
             "ordering": "id",
         }
         form = PositionSearchForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data, form_data)
+
+    def test_tag_search(self):
+        form_data = {
+            "name": "t",
+            "ordering": "id",
+        }
+        form = TagSearchForm(data=form_data)
         self.assertTrue(form.is_valid())
         self.assertEqual(form.cleaned_data, form_data)

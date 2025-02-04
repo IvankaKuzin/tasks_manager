@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.urls import reverse, reverse_lazy
 
-from tasks.models import Task, Worker, TaskType, Position
+from tasks.models import Task, Worker, TaskType, Position, Tag
 
 TestCase.fixtures = ["task_management.json"]
 
@@ -26,6 +26,11 @@ class PublicViewTest(TestCase):
         response = self.client.get(reverse("tasks:position-list"))
         self.assertEqual(response.status_code, 302)
         self.assertTemplateNotUsed(response, "tasks/position_list.html")
+
+    def test_tag_list_anonymous(self):
+        response = self.client.get(reverse("tasks:tag-list"))
+        self.assertEqual(response.status_code, 302)
+        self.assertTemplateNotUsed(response, "tasks/tag_list.html")
 
 
 class PrivateTaskTypeTest(TestCase):
@@ -154,6 +159,70 @@ class PrivatePositionTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("tasks:position-list"))
         self.assertFalse(Position.objects.filter(pk=self.position.pk).exists())
+
+
+class PrivateTagTest(TestCase):
+    def setUp(self):
+        self.tag = Tag.objects.create(
+            name="tag-name",
+        )
+        self.user = get_user_model().objects.create_user(
+            username="testuser", password="testpass123"
+        )
+        self.client.login(username="testuser", password="testpass123")
+
+    def test_position_list(self):
+        response = self.client.get(reverse("tasks:tag-list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "tasks/tag_list.html")
+
+        tag = Tag.objects.all()
+        self.assertEqual(
+            list(response.context["tag_list"]),
+            list(tag[0: len(
+                response.context["tag_list"]
+            )])
+        )
+
+    def test_position_create(self):
+        data = {
+            "name": "new-tag-name",
+        }
+        url = reverse_lazy("tasks:tag-create")
+        response = self.client.post(url, data=data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("tasks:tag-list"))
+
+        tag = Tag.objects.get(name="new-tag-name")
+        self.assertEqual(tag.name, "new-tag-name")
+
+    def test_position_update(self):
+        data = {
+            "name": "update-tag-name",
+        }
+        url = reverse_lazy(
+            "tasks:tag-update",
+            args=[self.tag.pk]
+        )
+        response = self.client.post(url, data=data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("tasks:tag-list"))
+
+        tag = Tag.objects.get(pk=self.tag.pk)
+        self.assertEqual(tag.name, "update-tag-name")
+
+    def test_position_delete(self):
+        url = reverse_lazy(
+            "tasks:tag-delete",
+            args=[self.tag.pk]
+        )
+        response = self.client.post(url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("tasks:tag-list"))
+        self.assertFalse(Tag.objects.filter(pk=self.tag.pk).exists())
 
 
 class PrivateWorkerTest(TestCase):

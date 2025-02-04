@@ -37,6 +37,9 @@
           <p class="card-text">
             Deadline: {{ task.deadline }}
             | Priority: {{ task.get_priority_display }}
+            | Tags: {% for tag in task.tags.all %}
+              {{ tag.name }},
+            {% endfor %}
           </p>
           {% if task.is_complete %}
             <a href="{% url 'tasks:task-update-status' task.id %}" class="btn btn-secondary btn-sm">Undo</a>

@@ -19,6 +19,10 @@ from tasks.views import (
     PositionCreateView,
     PositionUpdateView,
     PositionDeleteView,
+    TagsListView,
+    TagsCreateView,
+    TagsUpdateView,
+    TagsDeleteView,
 )
 
 urlpatterns = [
@@ -48,6 +52,11 @@ urlpatterns = [
     path("positions/create/", PositionCreateView.as_view(), name="position-create"),
     path("positions/<int:pk>/update/", PositionUpdateView.as_view(), name="position-update"),
     path("positions/<int:pk>/delete/", PositionDeleteView.as_view(), name="position-delete"),
+
+    path("tags/", TagsListView.as_view(), name="tag-list"),
+    path("tags/create/", TagsCreateView.as_view(), name="tag-create"),
+    path("tags/<int:pk>/update/", TagsUpdateView.as_view(), name="tag-update"),
+    path("tags/<int:pk>/delete/", TagsDeleteView.as_view(), name="tag-delete"),
 ]
 
 app_name = "tasks"

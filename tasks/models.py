@@ -10,6 +10,13 @@ class TaskType(models.Model):
         return self.name
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class Position(models.Model):
     name = models.CharField(max_length=100)
 
@@ -51,6 +58,7 @@ class Task(models.Model):
     priority = models.CharField(choices=PRIORITY_LEVEL.items(), max_length=20)
     task_type = models.ForeignKey(TaskType, on_delete=models.SET_NULL, null=True)
     assignees = models.ManyToManyField(Worker, related_name="tasks")
+    tags = models.ManyToManyField(Tag, related_name="tasks")
 
     class Meta:
         ordering = ["name"]

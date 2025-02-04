@@ -6,8 +6,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Authenti
 from django.core.exceptions import ValidationError
 from django.forms import Form, ModelForm
 
-from tasks.models import Task, Worker, Position, TaskType
-
+from tasks.models import Task, Worker, Position, TaskType, Tag
 
 
 class CustomLoginForm(AuthenticationForm):
@@ -218,8 +217,45 @@ class PositionCreateForm(ModelForm):
         if not name:
             raise ValidationError("Name cannot be empty.")
 
-        if not re.match(r'^[a-zA-Zа-яА-ЯёЁ\s]+$', name):
+        if not re.match(r'^[a-zA-Z\s]+$', name):
             raise ValidationError("Position name can contain only letters and spaces.")
+
+        if name.strip() == '':
+            raise ValidationError("Position name cannot be empty or contain only spaces.")
+
+        return name
+
+class TagSearchForm(Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="Search by name"
+    )
+    ordering = forms.ChoiceField(
+        choices=[
+            ('name', 'Name (A-Z)'),
+            ('-name', 'Name (Z-A)'),
+            ('id', 'Oldest'),
+            ('-id', 'Newest'),
+        ],
+        required=False,
+        label="Sort by"
+    )
+
+
+class TagCreateForm(ModelForm):
+    class Meta:
+        model = Tag
+        fields = "__all__"
+
+    def clean_name(self):
+        name = self.cleaned_data.get("name")
+
+        if not name:
+            raise ValidationError("Name cannot be empty.")
+
+        if not re.match(r'^[a-zA-Z-]+$', name):
+            raise ValidationError("Position name can contain only letters and ellipsis.")
 
         if name.strip() == '':
             raise ValidationError("Position name cannot be empty or contain only spaces.")
