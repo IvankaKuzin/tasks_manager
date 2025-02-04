@@ -7,7 +7,6 @@ from tasks.forms import TaskForm, WorkerCreationForm, WorkerUpdateForm, WorkerSe
     TaskTypeSearchForm, PositionSearchForm, TaskTypeCreateForm, PositionCreateForm, CustomLoginForm
 from tasks.models import Task, Worker, TaskType, Position
 from django.contrib.auth.views import LoginView
-from django import forms
 
 
 class CustomLoginView(LoginView):
