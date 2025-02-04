@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load query_transform %}
+
+{% block content %}
+  <h1>
+    Positions List
+    <a href="{% url 'tasks:position-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+
+  <form action="" method="get" class="row g-3 align-items-center">
+    <div class="col-auto">
+      {{ search_form.name|as_crispy_field }}
+    </div>
+    <div class="col-auto">
+      {{ search_form.ordering|as_crispy_field }}
+    </div>
+    <div class="col-auto">
+      <input type="submit" value="Search" class="btn btn-primary">
+    </div>
+  </form>
+
+  {% for position in position_list %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <h3 class="card-title">
+          {{ position.name }}
+        </h3>
+        <div class="d-flex justify-content-between">
+          <div>
+            <a href="{% url 'tasks:position-update' position.pk %}" class="btn btn-sm btn-outline-primary">
+              Update
+            </a>
+            <a href="{% url 'tasks:position-delete' position.pk %}" class="btn btn-sm btn-outline-danger">
+              Delete
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% include 'includes/pagination.html' %}
+{% endblock %}

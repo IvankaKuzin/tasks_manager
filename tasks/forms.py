@@ -131,3 +131,21 @@ class TaskTypeSearchForm(Form):
         required=False,
         label="Sort by"
     )
+
+
+class PositionSearchForm(Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="Search by name"
+    )
+    ordering = forms.ChoiceField(
+        choices=[
+            ('name', 'Name (A-Z)'),
+            ('-name', 'Name (Z-A)'),
+            ('id', 'Oldest'),
+            ('-id', 'Newest'),
+        ],
+        required=False,
+        label="Sort by"
+    )

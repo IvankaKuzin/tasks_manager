@@ -4,8 +4,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.utils.dateparse import parse_date
 from tasks.forms import TaskForm, WorkerCreationForm, WorkerUpdateForm, WorkerSearchUsernameForm, TaskSearchForm, \
-    TaskTypeSearchForm
-from tasks.models import Task, Worker, TaskType
+    TaskTypeSearchForm, PositionSearchForm
+from tasks.models import Task, Worker, TaskType, Position
 
 
 class TaskListView(LoginRequiredMixin, ListView):
@@ -195,3 +195,48 @@ class TaskTypeUpdateView(LoginRequiredMixin, UpdateView):
 class TaskTypeDeleteView(LoginRequiredMixin, DeleteView):
     model = TaskType
     success_url = reverse_lazy("tasks:task-type-list")
+
+
+class PositionListView(LoginRequiredMixin, ListView):
+    model = Position
+    context_object_name = "position_list"
+    paginate_by = 3
+    template_name = "tasks/position_list.html"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        self.form = PositionSearchForm(self.request.GET)
+
+        if self.form.is_valid():
+            name = self.form.cleaned_data.get('name')
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+
+            ordering = self.form.cleaned_data.get('ordering')
+            if ordering:
+                queryset = queryset.order_by(ordering)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_form'] = self.form
+        return context
+
+
+class PositionCreateView(LoginRequiredMixin, CreateView):
+    model = Position
+    fields = "__all__"
+    success_url = reverse_lazy("tasks:position-list")
+
+
+class PositionUpdateView(LoginRequiredMixin, UpdateView):
+    model = Position
+    fields = "__all__"
+    success_url = reverse_lazy("tasks:position-list")
+
+
+class PositionDeleteView(LoginRequiredMixin, DeleteView):
+    model = Position
+    success_url = reverse_lazy("tasks:position-list")
