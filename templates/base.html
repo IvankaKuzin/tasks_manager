@@ -1,8 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="/static/assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="/static/assets/img/favicon.png">
+
+  <title>
+    Soft UI Dashboard Django - {% block title %}{% endblock %} | Creative-Tim
+  </title>
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
+  <link href="/static/assets/css/nucleo-icons.css" rel="stylesheet"/>
+  <link href="/static/assets/css/nucleo-svg.css" rel="stylesheet"/>
+  <link href="/static/assets/css/nucleo-svg.css" rel="stylesheet"/>
+  <link id="pagestyle" href="/static/assets/css/soft-ui-dashboard.css?v=1.0.0" rel="stylesheet"/>
+
+  <!-- Specific CSS goes HERE -->
+  {% block stylesheets %}{% endblock stylesheets %}
+
   <title>Task manager</title>
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
@@ -12,7 +28,7 @@
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body>
+<body class="g-sidenav-show bg-gray-100">
 <div class="container-fluid">
   <div class="row">
 
@@ -22,8 +38,18 @@
       {% endblock %}
     </div>
 
-    <div class="col-sm-6 ">
-      {% block content %}{% endblock %}
+    <div class="col-sm-10">
+      <div class="row">
+        <div class="col-sm-8">
+          {% block content %}{% endblock %}
+        </div>
+
+        <div class="col-sm-4">
+          <main class="main-content mt-4 border-radius-lg">
+            {% block nav_content %} {% endblock %}
+          </main>
+        </div>
+      </div>
     </div>
   </div>
 </div>

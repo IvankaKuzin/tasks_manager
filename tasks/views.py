@@ -29,8 +29,8 @@ class CustomLoginView(LoginView):
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     context_object_name = "task_list"
-    paginate_by = 3
-    template_name = "tasks/task_list.html"
+    paginate_by = 4
+    template_name = "tasks/task/task_list.html"
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -80,18 +80,20 @@ class TaskListView(LoginRequiredMixin, ListView):
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
     context_object_name = "task"
-    template_name = "tasks/task_detail.html"
+    template_name = "tasks/task/task_detail.html"
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
+    template_name = "tasks/task/task_form.html"
     success_url = reverse_lazy("tasks:task-list")
 
 
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     form_class = TaskForm
+    template_name = "tasks/task/task_form.html"
     success_url = reverse_lazy("tasks:task-list")
 
 
@@ -105,14 +107,15 @@ def task_update_status(request, pk):
 
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
+    template_name = "tasks/task/task_confirm_delete.html"
     success_url = reverse_lazy("tasks:task-list")
 
 
 class WorkerListView(LoginRequiredMixin, ListView):
     model = Worker
     context_object_name = "worker_list"
-    template_name = "tasks/worker_list.html"
-    paginate_by = 3
+    template_name = "tasks/worker/worker_list.html"
+    paginate_by = 4
     queryset = Worker.objects.select_related("positions")
 
     def get_queryset(self):
@@ -149,31 +152,34 @@ class WorkerListView(LoginRequiredMixin, ListView):
 class WorkerDetailView(LoginRequiredMixin, DetailView):
     model = Worker
     context_object_name = "worker"
-    template_name = "tasks/worker_detail.html"
+    template_name = "tasks/worker/worker_detail.html"
 
 
-class WorkerCreateView(LoginRequiredMixin, CreateView):
+class WorkerCreateView(CreateView):
     model = Worker
     form_class = WorkerCreationForm
+    template_name = "tasks/worker/worker_form.html"
     success_url = reverse_lazy("tasks:worker-list")
 
 
 class WorkerUpdateView(LoginRequiredMixin, UpdateView):
     model = Worker
     form_class = WorkerUpdateForm
+    template_name = "tasks/worker/worker_form.html"
     success_url = reverse_lazy("tasks:worker-list")
 
 
 class WorkerDeleteView(LoginRequiredMixin, DeleteView):
     model = Worker
+    template_name = "tasks/worker/worker_confirm_delete.html"
     success_url = reverse_lazy("tasks:worker-list")
 
 
 class TaskTypeListView(LoginRequiredMixin, ListView):
     model = TaskType
     context_object_name = "task_type_list"
-    paginate_by = 3
-    template_name = "tasks/task_type_list.html"
+    paginate_by = 4
+    template_name = "tasks/task_type/task_type_list.html"
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -201,25 +207,28 @@ class TaskTypeCreateView(LoginRequiredMixin, CreateView):
     model = TaskType
     form_class = TaskTypeCreateForm
     context_object_name = "task_type"
+    template_name = "tasks/task_type/tasktype_form.html"
     success_url = reverse_lazy("tasks:task-type-list")
 
 
 class TaskTypeUpdateView(LoginRequiredMixin, UpdateView):
     model = TaskType
     form_class = TaskTypeCreateForm
+    template_name = "tasks/task_type/tasktype_form.html"
     success_url = reverse_lazy("tasks:task-type-list")
 
 
 class TaskTypeDeleteView(LoginRequiredMixin, DeleteView):
     model = TaskType
+    template_name = "tasks/task_type/tasktype_confirm_delete.html"
     success_url = reverse_lazy("tasks:task-type-list")
 
 
 class PositionListView(LoginRequiredMixin, ListView):
     model = Position
     context_object_name = "position_list"
-    paginate_by = 3
-    template_name = "tasks/position_list.html"
+    paginate_by = 4
+    template_name = "tasks/position/position_list.html"
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -246,25 +255,28 @@ class PositionListView(LoginRequiredMixin, ListView):
 class PositionCreateView(LoginRequiredMixin, CreateView):
     model = Position
     form_class = PositionCreateForm
+    template_name = "tasks/position/position_form.html"
     success_url = reverse_lazy("tasks:position-list")
 
 
 class PositionUpdateView(LoginRequiredMixin, UpdateView):
     model = Position
     form_class = PositionCreateForm
+    template_name = "tasks/position/position_form.html"
     success_url = reverse_lazy("tasks:position-list")
 
 
 class PositionDeleteView(LoginRequiredMixin, DeleteView):
     model = Position
+    template_name = "tasks/position/position_confirm_delete.html"
     success_url = reverse_lazy("tasks:position-list")
 
 
 class TagsListView(LoginRequiredMixin, ListView):
     model = Tag
     context_object_name = "tag_list"
-    paginate_by = 3
-    template_name = "tasks/tag_list.html"
+    paginate_by = 4
+    template_name = "tasks/tag/tag_list.html"
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -291,15 +303,18 @@ class TagsListView(LoginRequiredMixin, ListView):
 class TagsCreateView(LoginRequiredMixin, CreateView):
     model = Tag
     form_class = TagCreateForm
+    template_name = "tasks/tag/tag_form.html"
     success_url = reverse_lazy("tasks:tag-list")
 
 
 class TagsUpdateView(LoginRequiredMixin, UpdateView):
     model = Tag
     form_class = TagCreateForm
+    template_name = "tasks/tag/tag_form.html"
     success_url = reverse_lazy("tasks:tag-list")
 
 
 class TagsDeleteView(LoginRequiredMixin, DeleteView):
     model = Tag
+    template_name = "tasks/tag/tag_confirm_delete.html"
     success_url = reverse_lazy("tasks:tag-list")

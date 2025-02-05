@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block nav_content %}
+  {% include "includes/search_form.html" %}
+{% endblock %}
+
+{% block content %}
+  <h1>
+    Tags List
+    <a href="{% url 'tasks:tag-create' %}" class="btn btn-primary link-to-page">
+      +
+    </a>
+  </h1>
+
+  <div class="row">
+    {% for tag in tag_list %}
+      <div class="col-md-6 mb-2">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="card-title">
+              {{ tag.name }}
+            </h3>
+            <div class="d-flex justify-content-between">
+              <div>
+                <a href="{% url 'tasks:tag-update' tag.pk %}" class="btn btn-sm btn-outline-primary">
+                  Update
+                </a>
+                <a href="{% url 'tasks:tag-delete' tag.pk %}" class="btn btn-sm btn-outline-danger">
+                  Delete
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% include 'includes/pagination.html' %}
+{% endblock %}

@@ -19,6 +19,10 @@ class CustomLoginForm(AuthenticationForm):
 
 class TaskForm(forms.ModelForm):
     deadline = forms.DateField(widget = forms.SelectDateWidget)
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+    )
     assignees = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
         widget=forms.CheckboxSelectMultiple,
@@ -37,6 +41,10 @@ class WorkerCreationForm(UserCreationForm):
             "first_name",
             "last_name",
         )
+        help_texts = {
+            "username": "Username have to be 150 characters or fewer",
+            "password1": "Your password must contain at least 8 characters"
+        }
 
     def clean_first_name(self):
         value = self.cleaned_data["first_name"]

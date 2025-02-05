@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block nav_content %}
+  {% include "includes/search_sort_form.html" %}
+{% endblock %}
+
+{% block content %}
+  <h1>
+    Workers
+    <a href="{% url 'tasks:worker-create' %}" class="btn btn-primary link-to-page">
+      +
+    </a>
+  </h1>
+
+  <div class="row">
+    {% for worker in worker_list %}
+      <div class="col-md-6 mb-2">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="card-title">
+              <a href="{% url 'tasks:worker-detail' worker.pk %}">
+                {{ worker.username }}
+              </a>
+            </h3>
+            <p class="card-text">
+              Position: {{ worker.positions }}
+              | Email: {{ worker.email }}
+              | Joined: {{ worker.date_joined }}
+            </p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% include "includes/pagination.html" %}
+{% endblock %}
