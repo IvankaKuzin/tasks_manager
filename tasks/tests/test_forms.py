@@ -7,7 +7,8 @@ from tasks.forms import (
     TaskSearchForm,
     TaskTypeSearchForm,
     PositionSearchForm,
-    CustomLoginForm, TagSearchForm
+    CustomLoginForm,
+    TagSearchForm,
 )
 from tasks.models import Task, Worker, TaskType, Position, Tag
 
@@ -15,11 +16,14 @@ from tasks.models import Task, Worker, TaskType, Position, Tag
 class CustomLoginFormTest(TestCase):
     def setUp(self):
         self.form = CustomLoginForm()
+
     def test_remember_me_field_exists(self):
         self.assertIn("remember_me", self.form.fields)
 
     def test_remember_me_field_is_checkbox(self):
-        self.assertIsInstance(self.form.fields["remember_me"].widget, forms.CheckboxInput)
+        self.assertIsInstance(
+            self.form.fields["remember_me"].widget, forms.CheckboxInput
+        )
 
     def test_remember_me_field_has_correct_label(self):
         self.assertEqual(self.form.fields["remember_me"].label, "Remember me")
@@ -28,7 +32,10 @@ class CustomLoginFormTest(TestCase):
         self.assertFalse(self.form.fields["remember_me"].required)
 
     def test_remember_me_field_has_correct_class(self):
-        self.assertIn("form-check-input", self.form.fields["remember_me"].widget.attrs.get("class", ""))
+        self.assertIn(
+            "form-check-input",
+            self.form.fields["remember_me"].widget.attrs.get("class", ""),
+        )
 
 
 class SearchFormsTests(TestCase):
@@ -43,8 +50,7 @@ class SearchFormsTests(TestCase):
             name="Task Type",
         )
         self.worker = Worker.objects.create_user(
-            username="newuser", password="12345",
-            positions=self.position
+            username="newuser", password="12345", positions=self.position
         )
         self.user = get_user_model().objects.create_user(
             username="testuser", password="testpass123"
@@ -67,7 +73,7 @@ class SearchFormsTests(TestCase):
             "search_field": "username",
             "search_query": "newuser",
             "position": None,
-            "ordering": "date_joined"
+            "ordering": "date_joined",
         }
         form = WorkerSearchUsernameForm(data=form_data)
         self.assertTrue(form.is_valid())
@@ -78,7 +84,7 @@ class SearchFormsTests(TestCase):
             "search_field": "name",
             "search_query": "Task",
             "priority": "High",
-            "ordering": "deadline"
+            "ordering": "deadline",
         }
         form = TaskSearchForm(data=form_data)
         self.assertTrue(form.is_valid())

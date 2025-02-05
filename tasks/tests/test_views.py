@@ -6,6 +6,7 @@ from tasks.models import Task, Worker, TaskType, Position, Tag
 
 TestCase.fixtures = ["task_management.json"]
 
+
 class PublicViewTest(TestCase):
     def test_task_list_anonymous(self):
         response = self.client.get(reverse("tasks:task-list"))
@@ -51,9 +52,7 @@ class PrivateTaskTypeTest(TestCase):
         task_types = TaskType.objects.all()
         self.assertEqual(
             list(response.context["task_type_list"]),
-            list(task_types[0: len(
-                response.context["task_type_list"]
-            )])
+            list(task_types[0 : len(response.context["task_type_list"])]),
         )
 
     def test_task_type_create(self):
@@ -73,10 +72,7 @@ class PrivateTaskTypeTest(TestCase):
         data = {
             "name": "TaskType",
         }
-        url = reverse_lazy(
-            "tasks:task-type-update",
-            args=[self.task_type.pk]
-        )
+        url = reverse_lazy("tasks:task-type-update", args=[self.task_type.pk])
         response = self.client.post(url, data=data)
 
         self.assertEqual(response.status_code, 302)
@@ -86,10 +82,7 @@ class PrivateTaskTypeTest(TestCase):
         self.assertEqual(task_type.name, "TaskType")
 
     def test_task_type_delete(self):
-        url = reverse_lazy(
-            "tasks:task-type-delete",
-            args=[self.task_type.pk]
-        )
+        url = reverse_lazy("tasks:task-type-delete", args=[self.task_type.pk])
         response = self.client.post(url)
 
         self.assertEqual(response.status_code, 302)
@@ -115,9 +108,7 @@ class PrivatePositionTest(TestCase):
         position = Position.objects.all()
         self.assertEqual(
             list(response.context["position_list"]),
-            list(position[0: len(
-                response.context["position_list"]
-            )])
+            list(position[0 : len(response.context["position_list"])]),
         )
 
     def test_position_create(self):
@@ -137,10 +128,7 @@ class PrivatePositionTest(TestCase):
         data = {
             "name": "position name",
         }
-        url = reverse_lazy(
-            "tasks:position-update",
-            args=[self.position.pk]
-        )
+        url = reverse_lazy("tasks:position-update", args=[self.position.pk])
         response = self.client.post(url, data=data)
 
         self.assertEqual(response.status_code, 302)
@@ -150,10 +138,7 @@ class PrivatePositionTest(TestCase):
         self.assertEqual(position.name, "position name")
 
     def test_position_delete(self):
-        url = reverse_lazy(
-            "tasks:position-delete",
-            args=[self.position.pk]
-        )
+        url = reverse_lazy("tasks:position-delete", args=[self.position.pk])
         response = self.client.post(url)
 
         self.assertEqual(response.status_code, 302)
@@ -179,9 +164,7 @@ class PrivateTagTest(TestCase):
         tag = Tag.objects.all()
         self.assertEqual(
             list(response.context["tag_list"]),
-            list(tag[0: len(
-                response.context["tag_list"]
-            )])
+            list(tag[0 : len(response.context["tag_list"])]),
         )
 
     def test_position_create(self):
@@ -201,10 +184,7 @@ class PrivateTagTest(TestCase):
         data = {
             "name": "update-tag-name",
         }
-        url = reverse_lazy(
-            "tasks:tag-update",
-            args=[self.tag.pk]
-        )
+        url = reverse_lazy("tasks:tag-update", args=[self.tag.pk])
         response = self.client.post(url, data=data)
 
         self.assertEqual(response.status_code, 302)
@@ -214,10 +194,7 @@ class PrivateTagTest(TestCase):
         self.assertEqual(tag.name, "update-tag-name")
 
     def test_position_delete(self):
-        url = reverse_lazy(
-            "tasks:tag-delete",
-            args=[self.tag.pk]
-        )
+        url = reverse_lazy("tasks:tag-delete", args=[self.tag.pk])
         response = self.client.post(url)
 
         self.assertEqual(response.status_code, 302)
@@ -231,8 +208,7 @@ class PrivateWorkerTest(TestCase):
             name="Position",
         )
         self.worker = Worker.objects.create_user(
-            username="newuser", password="12345",
-            positions=self.position
+            username="newuser", password="12345", positions=self.position
         )
         self.user = get_user_model().objects.create_user(
             username="testuser", password="testpass123"
@@ -247,24 +223,18 @@ class PrivateWorkerTest(TestCase):
         worker = Worker.objects.all()
         self.assertEqual(
             list(response.context["worker_list"]),
-            list(worker[0: len(
-                response.context["worker_list"]
-            )])
+            list(worker[0 : len(response.context["worker_list"])]),
         )
 
     def test_worker_detail(self):
-        response = self.client.get(reverse(
-            "tasks:worker-detail",
-            args=[self.worker.pk]
-        ))
+        response = self.client.get(
+            reverse("tasks:worker-detail", args=[self.worker.pk])
+        )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "tasks/worker_detail.html")
 
         worker = Worker.objects.get(pk=self.worker.pk)
-        self.assertEqual(
-            str(response.context["worker"]),
-            str(worker)
-        )
+        self.assertEqual(str(response.context["worker"]), str(worker))
 
     def test_worker_create(self):
         data = {
@@ -273,7 +243,7 @@ class PrivateWorkerTest(TestCase):
             "password2": "strongpassword",
             "first_name": "Test",
             "last_name": "Test",
-            "positions": [self.position.pk]
+            "positions": [self.position.pk],
         }
         url = reverse_lazy("tasks:worker-create")
         response = self.client.post(url, data=data)
@@ -289,12 +259,9 @@ class PrivateWorkerTest(TestCase):
             "username": "newtestuser",
             "first_name": "Test",
             "last_name": "Test",
-            "positions": [self.position.pk]
+            "positions": [self.position.pk],
         }
-        url = reverse_lazy(
-            "tasks:worker-update",
-            args=[self.worker.pk]
-        )
+        url = reverse_lazy("tasks:worker-update", args=[self.worker.pk])
         response = self.client.post(url, data=data)
 
         self.assertEqual(response.status_code, 302)
@@ -306,10 +273,7 @@ class PrivateWorkerTest(TestCase):
         self.assertEqual(worker.username, "newtestuser")
 
     def test_worker_delete(self):
-        url = reverse_lazy(
-            "tasks:worker-delete",
-            args=[self.worker.pk]
-        )
+        url = reverse_lazy("tasks:worker-delete", args=[self.worker.pk])
         response = self.client.post(url)
 
         self.assertEqual(response.status_code, 302)
@@ -326,8 +290,7 @@ class PrivateTaskTest(TestCase):
             name="Task Type",
         )
         self.worker = Worker.objects.create_user(
-            username="newuser", password="12345",
-            positions=self.position
+            username="newuser", password="12345", positions=self.position
         )
         self.user = get_user_model().objects.create_user(
             username="testuser", password="testpass123"
@@ -352,24 +315,16 @@ class PrivateTaskTest(TestCase):
         task = Task.objects.all()
         self.assertEqual(
             list(response.context["task_list"]),
-            list(task[0: len(
-                response.context["task_list"]
-            )])
+            list(task[0 : len(response.context["task_list"])]),
         )
 
     def test_task_detail(self):
-        response = self.client.get(reverse(
-            "tasks:task-detail",
-            args=[self.task.pk]
-        ))
+        response = self.client.get(reverse("tasks:task-detail", args=[self.task.pk]))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "tasks/task_detail.html")
 
         task = Task.objects.get(pk=self.task.pk)
-        self.assertEqual(
-            str(response.context["task"]),
-            str(task)
-        )
+        self.assertEqual(str(response.context["task"]), str(task))
 
     def test_task_create(self):
         data = {
@@ -378,7 +333,7 @@ class PrivateTaskTest(TestCase):
             "deadline": "2025-12-31",
             "priority": "P2",
             "task_type": self.task_type.id,
-            "assignees": [self.user.id]
+            "assignees": [self.user.id],
         }
         url = reverse_lazy("tasks:task-create")
         response = self.client.post(url, data=data)
@@ -396,12 +351,9 @@ class PrivateTaskTest(TestCase):
             "deadline": "2025-12-31",
             "priority": "P2",
             "task_type": self.task_type.id,
-            "assignees": [self.user.id]
+            "assignees": [self.user.id],
         }
-        url = reverse_lazy(
-            "tasks:task-update",
-            args=[self.task.pk]
-        )
+        url = reverse_lazy("tasks:task-update", args=[self.task.pk])
         response = self.client.post(url, data=data)
 
         self.assertEqual(response.status_code, 302)
@@ -413,13 +365,9 @@ class PrivateTaskTest(TestCase):
         self.assertEqual(task.task_type, self.task_type)
 
     def test_task_delete(self):
-        url = reverse_lazy(
-            "tasks:task-delete",
-            args=[self.task.pk]
-        )
+        url = reverse_lazy("tasks:task-delete", args=[self.task.pk])
         response = self.client.post(url)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("tasks:task-list"))
         self.assertFalse(Task.objects.filter(pk=self.task.pk).exists())
-

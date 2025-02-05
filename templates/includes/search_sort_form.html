@@ -1,6 +1,6 @@
 {% load crispy_forms_filters %}
 
-<form action="" method="get" class="row g-3 align-items-center">
+<form action="" method="get" class="row g-2 align-items-center align-self-end">
   <div class="col-auto">
     {{ search_form.search_field|as_crispy_field }}
   </div>
@@ -10,7 +10,7 @@
   <div class="col-auto">
     {{ search_form.ordering|as_crispy_field }}
   </div>
-  <div class="col-auto">
+  <div class="col-auto" style="top: 13px">
     <input type="submit" value="Search & Sort" class="btn btn-primary">
   </div>
 </form>

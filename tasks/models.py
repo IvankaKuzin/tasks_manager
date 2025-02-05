@@ -64,4 +64,6 @@ class Task(models.Model):
         ordering = ["name"]
 
     def __str__(self):
-        return f"{self.name} - {self.task_type} ({self.priority}): {self.assignees.all()}"
+        return (
+            f"{self.name} - {self.task_type} ({self.priority}): {self.assignees.all()}"
+        )

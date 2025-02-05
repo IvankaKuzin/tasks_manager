@@ -1,12 +1,20 @@
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-4 fixed-left ms-4"
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-4 fixed-left ms-4 fs-5"
        id="sidenav-main">
   <div class="sidenav-header">
-    <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute right-0 top-0 d-none d-xl-none"
-       aria-hidden="true" id="iconSidenav"></i>
-    <a class="navbar-brand m-0" href="/">
-      <img src="/static/assets/img/logo-ct.png" class="navbar-brand-img h-100 w-15" alt="...">
-      <span class="ms-1 font-weight-bold">Your manager</span>
-    </a>
+    {% if user.is_authenticated %}
+    <div class="dropdown">
+      <a href="{% url 'tasks:worker-detail' user.id %}" class="d-flex align-items-center link-dark text-decoration-none" id="dropdownUser2" aria-expanded="false">
+        <img src="/static/assets/img/avatar.png" alt="" width="32" height="32" class="rounded-circle me-2">
+        <strong>{{ user.username }}</strong>
+      </a>
+    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-link">Logout</button>
+    </form>
+    </div>
+  {% else %}
+    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+  {% endif %}
   </div>
   <hr class="horizontal dark mt-0">
   <div class="collapse navbar-collapse  w-auto" id="sidenav-collapse-main">
@@ -161,36 +169,4 @@
       </li>
     </ul>
   </div>
-  {% if user.is_authenticated %}
-    <div class="dropdown">
-      <a href="{% url 'tasks:worker-detail' user.id %}" class="d-flex align-items-center link-dark text-decoration-none" id="dropdownUser2" aria-expanded="false">
-        <img src="/static/assets/img/avatar.png" alt="" width="32" height="32" class="rounded-circle me-2">
-        <strong>{{ user.username }}</strong>
-      </a>
-    <form method="post" action="{% url 'logout' %}" style="display: inline;">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-link">Logout</button>
-    </form>
-    </div>
-  {% else %}
-    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
-  {% endif %}
 </aside>
-
-{#{% if user.is_authenticated %}#}
-{#  <p><a href="{% url "tasks:worker-detail" user.pk %}">User: {{ user.username }}</a></p>#}
-{#  <form method="post" action="{% url 'logout' %}" style="display: inline;">#}
-{#    {% csrf_token %}#}
-{#    <button type="submit" class="btn btn-link">Logout</button>#}
-{#  </form>#}
-{#{% else %}#}
-{#  <a href="{% url 'login' %}">Login</a>#}
-{#{% endif %}#}
-{##}
-{#<ul class="sidebar-nav list-group">#}
-{#  <li class="list-group-item"><a href="{% url 'tasks:task-list' %}">Tasks</a></li>#}
-{#  <li class="list-group-item"><a href="{% url 'tasks:worker-list' %}">Workers</a></li>#}
-{#  <li class="list-group-item"><a href="{% url 'tasks:task-type-list' %}">Task types</a></li>#}
-{#  <li class="list-group-item"><a href="{% url 'tasks:position-list' %}">Positions</a></li>#}
-{#  <li class="list-group-item"><a href="{% url 'tasks:tag-list' %}">Tags</a></li>#}
-{#</ul>#}

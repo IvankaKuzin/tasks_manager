@@ -3,20 +3,37 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.dateparse import parse_date
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 
-from tasks.forms import TaskForm, WorkerCreationForm, WorkerUpdateForm, WorkerSearchUsernameForm, TaskSearchForm, \
-    TaskTypeSearchForm, PositionSearchForm, TaskTypeCreateForm, PositionCreateForm, CustomLoginForm, TagSearchForm, \
-    TagCreateForm
+from tasks.forms import (
+    TaskForm,
+    WorkerCreationForm,
+    WorkerUpdateForm,
+    WorkerSearchUsernameForm,
+    TaskSearchForm,
+    TaskTypeSearchForm,
+    PositionSearchForm,
+    TaskTypeCreateForm,
+    PositionCreateForm,
+    CustomLoginForm,
+    TagSearchForm,
+    TagCreateForm,
+)
 from tasks.models import Task, Worker, TaskType, Position, Tag
 
 
 class CustomLoginView(LoginView):
     form_class = CustomLoginForm
-    template_name = 'registration/login.html'
+    template_name = "registration/login.html"
 
     def form_valid(self, form):
-        remember_me = form.cleaned_data.get('remember_me')
+        remember_me = form.cleaned_data.get("remember_me")
 
         if remember_me:
             self.request.session.set_expiry(30 * 24 * 60 * 60)
@@ -38,34 +55,38 @@ class TaskListView(LoginRequiredMixin, ListView):
         self.form = TaskSearchForm(self.request.GET)
 
         if self.form.is_valid():
-            priority = self.form.cleaned_data.get('priority')
+            priority = self.form.cleaned_data.get("priority")
             if priority:
                 priority_key = next(
-                    (key for key, value in Task.PRIORITY_LEVEL.items() if value == priority),
-                    None
+                    (
+                        key
+                        for key, value in Task.PRIORITY_LEVEL.items()
+                        if value == priority
+                    ),
+                    None,
                 )
                 if priority_key:
                     queryset = queryset.filter(priority=priority_key)
 
-            search_field = self.form.cleaned_data.get('search_field')
-            search_query = self.form.cleaned_data.get('search_query')
+            search_field = self.form.cleaned_data.get("search_field")
+            search_query = self.form.cleaned_data.get("search_query")
 
             if search_field and search_query:
                 filter_kwargs = {}
 
-                if search_field == 'deadline':
+                if search_field == "deadline":
                     try:
                         deadline = parse_date(search_query)
                         if deadline:
-                            filter_kwargs[f'{search_field}'] = deadline
+                            filter_kwargs[f"{search_field}"] = deadline
                     except ValueError:
                         pass
                 else:
-                    filter_kwargs[f'{search_field}__icontains'] = search_query
+                    filter_kwargs[f"{search_field}__icontains"] = search_query
 
                 queryset = queryset.filter(**filter_kwargs)
 
-            ordering = self.form.cleaned_data.get('ordering')
+            ordering = self.form.cleaned_data.get("ordering")
             if ordering:
                 queryset = queryset.order_by(ordering)
 
@@ -73,7 +94,7 @@ class TaskListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['search_form'] = self.form
+        context["search_form"] = self.form
         return context
 
 
@@ -124,20 +145,18 @@ class WorkerListView(LoginRequiredMixin, ListView):
         self.form = WorkerSearchUsernameForm(self.request.GET)
 
         if self.form.is_valid():
-            position = self.form.cleaned_data.get('position')
+            position = self.form.cleaned_data.get("position")
             if position:
                 queryset = queryset.filter(positions=position)
 
-            search_field = self.form.cleaned_data.get('search_field')
-            search_query = self.form.cleaned_data.get('search_query')
+            search_field = self.form.cleaned_data.get("search_field")
+            search_query = self.form.cleaned_data.get("search_query")
 
             if search_field and search_query:
-                filter_kwargs = {
-                    f'{search_field}__icontains': search_query
-                }
+                filter_kwargs = {f"{search_field}__icontains": search_query}
                 queryset = queryset.filter(**filter_kwargs)
 
-            ordering = self.form.cleaned_data.get('ordering')
+            ordering = self.form.cleaned_data.get("ordering")
             if ordering:
                 queryset = queryset.order_by(ordering)
 
@@ -145,7 +164,7 @@ class WorkerListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['search_form'] = self.form
+        context["search_form"] = self.form
         return context
 
 
@@ -187,11 +206,11 @@ class TaskTypeListView(LoginRequiredMixin, ListView):
         self.form = TaskTypeSearchForm(self.request.GET)
 
         if self.form.is_valid():
-            name = self.form.cleaned_data.get('name')
+            name = self.form.cleaned_data.get("name")
             if name:
                 queryset = queryset.filter(name__icontains=name)
 
-            ordering = self.form.cleaned_data.get('ordering')
+            ordering = self.form.cleaned_data.get("ordering")
             if ordering:
                 queryset = queryset.order_by(ordering)
 
@@ -199,7 +218,7 @@ class TaskTypeListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['search_form'] = self.form
+        context["search_form"] = self.form
         return context
 
 
@@ -236,11 +255,11 @@ class PositionListView(LoginRequiredMixin, ListView):
         self.form = PositionSearchForm(self.request.GET)
 
         if self.form.is_valid():
-            name = self.form.cleaned_data.get('name')
+            name = self.form.cleaned_data.get("name")
             if name:
                 queryset = queryset.filter(name__icontains=name)
 
-            ordering = self.form.cleaned_data.get('ordering')
+            ordering = self.form.cleaned_data.get("ordering")
             if ordering:
                 queryset = queryset.order_by(ordering)
 
@@ -248,7 +267,7 @@ class PositionListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['search_form'] = self.form
+        context["search_form"] = self.form
         return context
 
 
@@ -284,11 +303,11 @@ class TagsListView(LoginRequiredMixin, ListView):
         self.form = TagSearchForm(self.request.GET)
 
         if self.form.is_valid():
-            name = self.form.cleaned_data.get('name')
+            name = self.form.cleaned_data.get("name")
             if name:
                 queryset = queryset.filter(name__icontains=name)
 
-            ordering = self.form.cleaned_data.get('ordering')
+            ordering = self.form.cleaned_data.get("ordering")
             if ordering:
                 queryset = queryset.order_by(ordering)
 
@@ -296,7 +315,7 @@ class TagsListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['search_form'] = self.form
+        context["search_form"] = self.form
         return context
 
 

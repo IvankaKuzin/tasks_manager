@@ -7,7 +7,7 @@
 {% block content %}
   <h1>
     Task List
-    <a href="{% url 'tasks:task-create' %}" class="btn btn-primary plus-button">
+    <a href="{% url 'tasks:task-create' %}" class="btn btn-primary plus-button mb-2">
       +
     </a>
   </h1>
@@ -38,11 +38,13 @@
                   | No tags
                 {% endif %}
               </p>
+            <div class="position-absolute" style="top: 75%; right: 10px;">
               {% if task.is_complete %}
                 <a href="{% url 'tasks:task-update-status' task.id %}" class="btn btn-secondary btn-sm">Undo</a>
               {% else %}
                 <a href="{% url 'tasks:task-update-status' task.id %}" class="btn btn-success btn-sm">Complete</a>
               {% endif %}
+            </div>
             </div>
           </div>
         </div>
@@ -53,19 +55,3 @@
   {% endif %}
   {% include "includes/pagination.html" %}
 {% endblock %}
-
-**Пояснення:**
-
-* **Умовний оператор:** Додано умовний оператор `if/elif/else` всередині атрибуту `class` для визначення кольору рамки залежно від пріоритету задачі.
-    * `task.priority == 'high'`: Якщо пріоритет "високий", додається клас `border border-danger`.
-    * `task.priority == 'medium'`: Якщо пріоритет "середній", додається клас `border border-warning`.
-    * `else`: Якщо пріоритет не "високий" і не "середній" (тобто "низький"), додається клас `border border-primary`.
-* **Bootstrap класи:** Використані класи Bootstrap `border`, `border-danger`, `border-warning` і `border-primary` для створення рамок відповідних кольорів.
-
-Цей код додасть кольорові рамки до кожної картки відповідно до її пріоритету:
-
-* **Високий пріоритет:** Червона рамка
-* **Середній пріоритет:** Жовта рамка
-* **Низький пріоритет:** Синя рамка
-
-Цей підхід забезпечує чітке візуальне відображення пріоритету задач користувачам.
