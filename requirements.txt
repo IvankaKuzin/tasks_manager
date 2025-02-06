@@ -19,3 +19,4 @@ pyflakes==2.5.0
 sqlparse==0.5.3
 tzdata==2025.1
 uvicorn==0.34.0
+whitenoise==6.8.2
