@@ -150,7 +150,7 @@ form .aligned p.datetime div.help.timezonewarning,
 form .aligned p.time div.help.timezonewarning {
     margin-left: 0;
     padding-left: 0;
-    font-weight: initial;
+    font-weight: normal;
 }
 
 form .aligned p.help:last-child,
