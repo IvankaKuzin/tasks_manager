@@ -1,7 +1,11 @@
+from dotenv import load_dotenv
+import os
+
 from tasks_manager.settings.base import *
 
+load_dotenv()
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-ivxpeye&&_r30qpg4=)br)utmi^jmu#71)+itc#(ewy05_v@7_"
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
