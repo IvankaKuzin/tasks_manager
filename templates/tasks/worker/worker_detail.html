@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="card mb-2" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">
+        <strong> {{ worker.first_name }} {{ worker.last_name }}
+          {% if worker.id == user.id %}
+            (Me)
+          {% endif %}
+        </strong>
+        <br>
+      </h5>
+      <h6 class="card-subtitle mb-2 text-muted">
+        Position: {{ worker.positions }}
+      </h6>
+      <hr style="border: 0.01cm solid black;">
+      <p class="card-text">
+      <p>{{ worker.username }}</p>
+      <p>{{ worker.email }}</p>
+      </p>
+    </div>
+  </div>
+
+  <a href="{% url 'tasks:worker-update' worker.pk %}" class="btn btn-secondary link-to-page">
+    Update
+  </a>
+  <a href="{% url 'tasks:worker-delete' worker.pk %}" class="btn btn-danger link-to-page">
+    Delete
+  </a>
+  {% with completed_tasks=worker.tasks.all|dictsort:"is_complete" %}
+  <div class="row">
+    <div class="col-6">
+      <h3>Not complete tasks</h3>
+      <ul>
+        {% for task in completed_tasks %}
+          {% if not task.is_complete %}
+            <li><a href="{% url 'tasks:task-detail' task.pk %}">{{ task.name }}</a></li>
+          {% endif %}
+        {% empty %}
+          <p>All your tasks complete</p>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-6">
+      <h3>Complete tasks</h3>
+      <ul>
+        {% for task in completed_tasks %}
+          {% if task.is_complete %}
+            <li><a href="{% url 'tasks:task-detail' task.pk %}">{{ task.name }}</a></li>
+          {% endif %}
+        {% empty %}
+          <p>You don't have complete tasks</p>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endwith %}
+{% endblock %}

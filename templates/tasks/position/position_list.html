@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block nav_content %}
+  {% include "includes/search_form.html" %}
+{% endblock %}
+
+{% block content %}
+  <h1>
+    Positions List
+    <a href="{% url 'tasks:position-create' %}" class="btn btn-primary link-to-page mb-2">
+      +
+    </a>
+  </h1>
+
+  <div class="row">
+    {% for position in position_list %}
+      <div class="col-md-6 mb-2">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="card-title">
+              {{ position.name }}
+            </h3>
+            <div class="d-flex justify-content-between">
+              <div>
+                <a href="{% url 'tasks:position-update' position.pk %}" class="btn btn-sm btn-outline-primary">
+                  Update
+                </a>
+                <a href="{% url 'tasks:position-delete' position.pk %}" class="btn btn-sm btn-outline-danger">
+                  Delete
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% include 'includes/pagination.html' %}
+{% endblock %}

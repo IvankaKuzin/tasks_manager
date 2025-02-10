@@ -1,0 +1,12 @@
+{% load crispy_forms_filters %}
+<form action="" method="get" class="row g-0 align-items-center">
+  <div class="col-auto">
+    {{ search_form.name|as_crispy_field }}
+  </div>
+  <div class="col-auto">
+    {{ search_form.ordering|as_crispy_field }}
+  </div>
+  <div class="col-auto">
+    <input type="submit" value="Search" class="btn btn-primary">
+  </div>
+</form>

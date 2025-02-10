@@ -1,0 +1,487 @@
+[
+{
+    "model": "tasks.tasktype",
+    "pk": 1,
+    "fields": {
+        "name": "Development"
+    }
+},
+{
+    "model": "tasks.tasktype",
+    "pk": 2,
+    "fields": {
+        "name": "Design"
+    }
+},
+{
+    "model": "tasks.tasktype",
+    "pk": 3,
+    "fields": {
+        "name": "Testing"
+    }
+},
+{
+    "model": "tasks.tasktype",
+    "pk": 4,
+    "fields": {
+        "name": "Documentation"
+    }
+},
+{
+    "model": "tasks.tasktype",
+    "pk": 5,
+    "fields": {
+        "name": "Meeting"
+    }
+},
+{
+    "model": "tasks.tasktype",
+    "pk": 6,
+    "fields": {
+        "name": "Support"
+    }
+},
+{
+    "model": "tasks.tasktype",
+    "pk": 7,
+    "fields": {
+        "name": "Research"
+    }
+},
+{
+    "model": "tasks.tag",
+    "pk": 1,
+    "fields": {
+        "name": "frontend"
+    }
+},
+{
+    "model": "tasks.tag",
+    "pk": 2,
+    "fields": {
+        "name": "backend"
+    }
+},
+{
+    "model": "tasks.tag",
+    "pk": 3,
+    "fields": {
+        "name": "database"
+    }
+},
+{
+    "model": "tasks.tag",
+    "pk": 4,
+    "fields": {
+        "name": "refactoring"
+    }
+},
+{
+    "model": "tasks.tag",
+    "pk": 5,
+    "fields": {
+        "name": "optimization"
+    }
+},
+{
+    "model": "tasks.tag",
+    "pk": 9,
+    "fields": {
+        "name": "landing-page-layout"
+    }
+},
+{
+    "model": "tasks.tag",
+    "pk": 10,
+    "fields": {
+        "name": "python-refactoring"
+    }
+},
+{
+    "model": "tasks.position",
+    "pk": 1,
+    "fields": {
+        "name": "Software Engineer"
+    }
+},
+{
+    "model": "tasks.position",
+    "pk": 2,
+    "fields": {
+        "name": "UI/UX Designer"
+    }
+},
+{
+    "model": "tasks.position",
+    "pk": 3,
+    "fields": {
+        "name": "Project Manager"
+    }
+},
+{
+    "model": "tasks.position",
+    "pk": 4,
+    "fields": {
+        "name": "QA Specialist"
+    }
+},
+{
+    "model": "tasks.worker",
+    "pk": 1,
+    "fields": {
+        "password": "",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "john_doe",
+        "first_name": "John",
+        "last_name": "Doe",
+        "email": "john.doe@company.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-02-04T19:57:15.688Z",
+        "positions": 1,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "tasks.worker",
+    "pk": 2,
+    "fields": {
+        "password": "",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "jane_smith",
+        "first_name": "Jane",
+        "last_name": "Smith",
+        "email": "jane.smith@company.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-02-04T19:57:15.688Z",
+        "positions": 2,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "tasks.worker",
+    "pk": 3,
+    "fields": {
+        "password": "",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "mike_johnson",
+        "first_name": "Mike",
+        "last_name": "Johnson",
+        "email": "mike.johnson@company.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-02-04T19:57:15.689Z",
+        "positions": 3,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "tasks.worker",
+    "pk": 4,
+    "fields": {
+        "password": "",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "sarah_lee",
+        "first_name": "Sarah",
+        "last_name": "Lee",
+        "email": "sarah.lee@company.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-02-04T19:57:15.689Z",
+        "positions": 4,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "tasks.worker",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$8ZaQl1VM9DYo7haJvAjr4q$TGdRGQ3rhJjhsi/tAZUC3WIiQG1FDeIhSC0JqXS4M+w=",
+        "last_login": "2025-02-06T18:54:23.729Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2025-02-04T19:58:44.153Z",
+        "positions": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "tasks.worker",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$qciOoNu9TvLSZHMPxddjak$aDBnHgk8HaDSoX2SaXDSoahf+5Rv4H/K97dIIDi6dj8=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "kuzin_ivanka",
+        "first_name": "Ivanna",
+        "last_name": "Kuzin",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-02-05T10:46:24.556Z",
+        "positions": 2,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "tasks.worker",
+    "pk": 7,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$Kjt8XEfOeBpgQSaJXnaYh4$foDynqRR2sxJ+UVLUqR3w/ExjtmedYvuq6uH6oK2Dxc=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "teast",
+        "first_name": "Test",
+        "last_name": "Test",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-02-06T18:54:02.586Z",
+        "positions": 1,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "tasks.task",
+    "pk": 1,
+    "fields": {
+        "name": "Implement User Authentication",
+        "description": "Create a secure user authentication system with multi-factor authentication support",
+        "deadline": "2024-03-15",
+        "is_complete": false,
+        "priority": "P2",
+        "task_type": 1,
+        "assignees": [
+            1,
+            3
+        ],
+        "tags": [
+            2
+        ]
+    }
+},
+{
+    "model": "tasks.task",
+    "pk": 2,
+    "fields": {
+        "name": "Design New Dashboard UI",
+        "description": "Create a modern, responsive dashboard design for the web application",
+        "deadline": "2024-02-28",
+        "is_complete": false,
+        "priority": "P3",
+        "task_type": 2,
+        "assignees": [
+            2
+        ],
+        "tags": [
+            1
+        ]
+    }
+},
+{
+    "model": "tasks.task",
+    "pk": 3,
+    "fields": {
+        "name": "Backend API Optimization",
+        "description": "Improve database query performance and reduce API response times",
+        "deadline": "2024-03-20",
+        "is_complete": true,
+        "priority": "P2",
+        "task_type": 1,
+        "assignees": [
+            1
+        ],
+        "tags": [
+            2,
+            3,
+            5
+        ]
+    }
+},
+{
+    "model": "tasks.task",
+    "pk": 4,
+    "fields": {
+        "name": "Mobile App Responsive Design",
+        "description": "Ensure full responsiveness across different mobile devices and screen sizes",
+        "deadline": "2024-03-10",
+        "is_complete": false,
+        "priority": "P3",
+        "task_type": 2,
+        "assignees": [
+            2
+        ],
+        "tags": [
+            1,
+            4
+        ]
+    }
+},
+{
+    "model": "tasks.task",
+    "pk": 5,
+    "fields": {
+        "name": "Security Vulnerability Audit",
+        "description": "Comprehensive security assessment and penetration testing",
+        "deadline": "2024-04-01",
+        "is_complete": false,
+        "priority": "P1",
+        "task_type": 3,
+        "assignees": [
+            4
+        ],
+        "tags": [
+            2
+        ]
+    }
+},
+{
+    "model": "tasks.task",
+    "pk": 6,
+    "fields": {
+        "name": "Customer Feedback Analysis",
+        "description": "Review and categorize recent customer support tickets and feedback",
+        "deadline": "2024-03-05",
+        "is_complete": false,
+        "priority": "P3",
+        "task_type": 6,
+        "assignees": [
+            3
+        ],
+        "tags": []
+    }
+},
+{
+    "model": "tasks.task",
+    "pk": 7,
+    "fields": {
+        "name": "Technical Documentation Update",
+        "description": "Update project documentation with latest system architecture and API changes",
+        "deadline": "2024-03-25",
+        "is_complete": true,
+        "priority": "P4",
+        "task_type": 4,
+        "assignees": [
+            1,
+            3
+        ],
+        "tags": [
+            2,
+            4
+        ]
+    }
+},
+{
+    "model": "tasks.task",
+    "pk": 8,
+    "fields": {
+        "name": "Performance Benchmark Testing",
+        "description": "Conduct comprehensive performance tests on critical application modules",
+        "deadline": "2024-03-15",
+        "is_complete": false,
+        "priority": "P2",
+        "task_type": 3,
+        "assignees": [
+            4
+        ],
+        "tags": [
+            2,
+            5
+        ]
+    }
+},
+{
+    "model": "tasks.task",
+    "pk": 9,
+    "fields": {
+        "name": "Weekly Team Retrospective",
+        "description": "Conduct sprint retrospective and discuss team improvements",
+        "deadline": "2024-03-01",
+        "is_complete": true,
+        "priority": "P4",
+        "task_type": 5,
+        "assignees": [
+            1,
+            2,
+            3,
+            4
+        ],
+        "tags": []
+    }
+},
+{
+    "model": "tasks.task",
+    "pk": 10,
+    "fields": {
+        "name": "New Technology Research",
+        "description": "Investigate emerging technologies for potential integration in our tech stack",
+        "deadline": "2024-03-30",
+        "is_complete": false,
+        "priority": "P4",
+        "task_type": 7,
+        "assignees": [
+            1,
+            3
+        ],
+        "tags": [
+            4,
+            5
+        ]
+    }
+},
+{
+    "model": "tasks.task",
+    "pk": 11,
+    "fields": {
+        "name": "Infrastructure as Code Implementation",
+        "description": "Develop and implement infrastructure automation scripts",
+        "deadline": "2024-04-10",
+        "is_complete": false,
+        "priority": "P2",
+        "task_type": 1,
+        "assignees": [
+            1
+        ],
+        "tags": [
+            2
+        ]
+    }
+},
+{
+    "model": "tasks.task",
+    "pk": 12,
+    "fields": {
+        "name": "Client Onboarding UX Improvement",
+        "description": "Redesign and streamline the client onboarding user experience",
+        "deadline": "2024-03-18",
+        "is_complete": false,
+        "priority": "P3",
+        "task_type": 2,
+        "assignees": [
+            2,
+            3
+        ],
+        "tags": [
+            1,
+            4
+        ]
+    }
+}
+]
